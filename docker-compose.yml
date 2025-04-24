@@ -1,0 +1,12 @@
+services:
+  jupyter:
+    image: python:3.11.11-slim # Base image with Python 3.11.11
+    container_name: jupyter_python # Name of the container
+    working_dir: /app # Working directory inside the container
+    volumes:
+      - .:/app # Mount the current directory to /app in the container
+    ports:
+      - "8888:8888" # Map port 8888 of the container to port 8888 on the host
+    command: >
+      sh -c "pip install --no-cache-dir -r requirements.txt jupyter &&
+             jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root"
