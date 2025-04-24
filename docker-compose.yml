@@ -1,4 +1,14 @@
 services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: housing_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
   jupyter:
     image: python:3.11.11-slim # Base image with Python 3.11.11
     container_name: jupyter_python # Name of the container
@@ -10,3 +20,7 @@ services:
     command: >
       sh -c "pip install --no-cache-dir -r requirements.txt jupyter &&
              jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root"
+    depends_on:
+      - postgres
+volumes:
+  postgres_data:
